@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ["*"]
 
 # User-Apps
 USER_APPS = [
-
+    "apps.api"
 ]
 
 # Application definition
