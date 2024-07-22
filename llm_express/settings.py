@@ -24,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
 JWT_SECRET = os.environ.get("JWT_SECRET")
+CIPHER_SECRET = os.environ.get("CIPHER_SECRET")
 
 if JWT_SECRET is None:
     raise Exception(f"JWT_SECRET is missing in .env")
@@ -35,7 +36,8 @@ ALLOWED_HOSTS = ["*"]
 
 # User-Apps
 USER_APPS = [
-    "apps.api"
+    "apps.api",
+    "apps.huggingface",
 ]
 
 # Application definition

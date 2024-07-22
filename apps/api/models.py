@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 # Create your models here.
@@ -9,3 +10,11 @@ class User(models.Model):
     profile = models.TextField(null=True, blank=True, default="")
     password = models.TextField(blank=False, null=False)
     bio = models.TextField(blank=True, null=True, default="")
+
+
+class UserSecrets(models.Model):
+    id = models.TextField(primary_key=True, default=uuid.uuid4)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
+    hugging_face_token = models.TextField(blank=True, null=True, default="")
+    aws_access_key = models.TextField(blank=True, null=True, default="")
+    aws_secret_access_key = models.TextField(blank=True, null=True, default="")

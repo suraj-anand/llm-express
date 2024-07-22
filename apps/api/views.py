@@ -1,7 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-
 import os
 import uuid
 import logging
@@ -147,7 +146,6 @@ class AuthCheckAPI(APIView):
     @method_decorator(authenticated_resource)
     def post(self, request):
         data = parse_user_session(request=request)
-        print(data)
         return Response({"detail": "Authenticated", "user_id": data.get("user_id"), "user_name": data.get("user_name") }, status=status.HTTP_202_ACCEPTED)
 
 # Edit profile Routes
@@ -230,7 +228,7 @@ class UserBioAPI(APIView):
 class UserDetails(APIView):
     def get(self, request, user_id):
         user = get_object_or_404(User, id=user_id)        
-        data = SimpleUserSerializer(user).data
+        data = UserSerializer(user).data
         return Response(data)
 
 
