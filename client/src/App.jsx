@@ -7,7 +7,8 @@ import {
   Unauthorized,
   UserProfile,
   About,
-  MyProfile
+  MyProfile,
+  Tokens
 } from './pages'
 import AuthorizedRoutes from "utils/AuthorizedRoutes";
 import { AuthProvider } from "context/AuthContext";
@@ -27,6 +28,10 @@ function App() {
           
 
           <Route element={<AuthorizedRoutes />}>
+
+            {/* Tokens */}
+            <Route path="/tokens/" element={<Tokens />} />
+
             <Route path="/my-profile/" element={<MyProfile />} />
             <Route path="/user/:userid" element={<UserProfile />} />
           </Route>

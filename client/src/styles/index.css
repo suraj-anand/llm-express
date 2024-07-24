@@ -9,7 +9,14 @@ body {
   box-sizing: border-box;
   line-height: normal;
   font-family: "Raleway", Helvetica, Arial,  sans-serif;
+}
+
+div, label, h1, h2, h3, h4, h5, h6, p, input {
   color: #fff;
+}
+
+input[type='text'], input[type='password'] {
+  color: #000 !important;
 }
 
 /* Scrollbar */
@@ -28,13 +35,12 @@ body {
 
 /* Navbar */
 .nav-items .active {
-  color: #000;
+  color: #FFF;
 }
 
 .nav-items > .active::after {
   position: absolute;
   margin-top: 6px;
-  color: "#000";
   width: 100%;
   height: 1px;
 }
@@ -47,5 +53,5 @@ body {
 
 .btn.ofc-btn.active {
   background-color: #0096FF;
-  color: #EEE;
+  color: #FFF;
 }
