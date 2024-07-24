@@ -103,7 +103,7 @@ export const LogoutBtn = () => {
         <>
         {
             authStatus && 
-            <button className="ms-auto flex gap-2 btn btn-outline-dark" onClick={handleLogout} data-bs-dismiss="offcanvas">
+            <button className="ms-auto flex gap-2 btn btn-outline-danger" onClick={handleLogout} data-bs-dismiss="offcanvas">
                 <IoMdLogOut className="text-2xl font-bold" /> Logout
             </button>
         }

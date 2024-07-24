@@ -35,13 +35,13 @@ const UserDetails = () => {
         loading ? <Spinner /> :
         <>
           <ProfileImage size={72} imgSrc={profile} userid={userid}  />
-          <p className="text-3xl mt-3">{name}</p>
+          <p className="text-3xl text-white mt-3">{name}</p>
           <h5> Joined: { creation_time ? formatDistance(new Date(creation_time), new Date(), { addSuffix: true }) : "" } </h5>
 
           <div className="container flex justify-center">
             { 
-              bio && <div className="text-dark my-12 text-lg">
-                <span dangerouslySetInnerHTML={{__html: bio}}></span>
+              bio && <div className="my-12 text-white text-lg">
+                <span className="" dangerouslySetInnerHTML={{__html: bio}}></span>
               </div>
             }
           </div>
