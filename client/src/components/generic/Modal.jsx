@@ -22,7 +22,7 @@ const Modal = ({
     <>
         <div className="modal" tabIndex="-1" id={modalId}>
             <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
+                <div className="!bg-slate-800 modal-content">
                 <div className="modal-header">
                     <h5 className="modal-title">{title}</h5>
                     { showClose && <button type="button" className="ms-auto" data-bs-dismiss="modal" aria-label="Close"><IoMdClose size={24} /></button> }

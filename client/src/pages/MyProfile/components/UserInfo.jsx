@@ -46,7 +46,7 @@ const UserInfo = () => {
                 <PiDotsThreeVerticalBold className="fw-bolder text-lg" size={36} />
             </button>
 
-            <ul className="dropdown-menu">
+            <ul className="dropdown-menu bg-gray-400">
               <li data-bs-toggle="modal" data-bs-target="#generic-modal"  className="flex gap-2 items-center dropdown-item hover:text-blue-500">
                 <button className="my-1" title="Change Profile">
                   <RiRefreshLine size={22} />
