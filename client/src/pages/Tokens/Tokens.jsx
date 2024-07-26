@@ -129,12 +129,16 @@ const Tokens = () => {
                 <div className="flex my-12 justify-center">
                     {
                         ( secretType === HUGGING_FACE && hugging_face_token !== DEFAULT_TOKEN && hugging_face_token ) && 
-                            <button className="btn btn-lg btn-outline-primary" onClick={handleUpdateToken}>Update Token</button>
+                            <button className="btn btn-lg btn-outline-primary" onClick={handleUpdateToken}>
+                                { data?.hugging_face_token ? "Update Token" : "Save Token"}
+                            </button>
                     }
 
                     {
                         ( secretType === AWS && aws_access_key !== DEFAULT_TOKEN && aws_secret_access_key !== DEFAULT_TOKEN && aws_access_key && aws_secret_access_key ) && 
-                        <button className="btn btn-lg btn-outline-primary" onClick={handleUpdateToken}>Update Token</button>
+                        <button className="btn btn-lg btn-outline-primary" onClick={handleUpdateToken}>
+                            { data?.aws_access_key && data?.aws_secret_access_key ? "Update Token" : "Save Token"}
+                        </button>
                     }
                 </div>
 
