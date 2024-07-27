@@ -38,6 +38,7 @@ ALLOWED_HOSTS = ["*"]
 USER_APPS = [
     "apps.api",
     "apps.huggingface",
+    "apps.bedrock",
 ]
 
 # Application definition
