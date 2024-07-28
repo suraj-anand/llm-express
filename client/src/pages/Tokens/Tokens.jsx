@@ -55,9 +55,24 @@ const Tokens = () => {
                 console.log(error?.response?.data?.message)
                 setError(`Failed: ${error?.response?.data?.message}`);
             }
-            
         } else {
-
+            try {
+                const response = await axios.post("/api/user-secrets/", {
+                    "type": secretType,
+                    "aws_access_key": aws_access_key,
+                    "aws_secret_access_key": aws_secret_access_key
+                })
+                if([200,201].includes(response.status)){
+                    setError("");
+                    setSuccess("aws secrets has been updated successfully");
+                    set_hugging_face_token(DEFAULT_TOKEN)
+                } else {
+                    setError(`Failed: ${response.data?.message}`);
+                }
+            } catch(error){
+                console.log(error?.response?.data?.message)
+                setError(`Failed: ${error?.response?.data?.message}`);
+            }
         }
         setLoading(false);
     }

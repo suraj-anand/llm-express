@@ -11,6 +11,7 @@ from apps.api.permissions import Authenticated
 from apps.api.constants import AWS, HUGGING_FACE
 from apps.huggingface.helper import HuggingFaceAPI
 from apps.huggingface.exceptions import InvalidTokenException
+from apps.bedrock.helper import AwsAPI
 from llm_express.utils import CryptoService
 
 
@@ -39,6 +40,31 @@ def setHuggingFaceToken(request):
         traceback.format_exc(e)
         return Response({"message": "something wen't wrong"}, status=500)
 
+
+def setAwsSecrets(request):
+    aws_access_key = request.data.get("aws_access_key")
+    aws_secret_access_key = request.data.get("aws_secret_access_key")
+    aws_api = AwsAPI(aws_access_key=aws_access_key, aws_secret_access_key=aws_secret_access_key)
+    try:
+        allowed = aws_api.validate_access()
+        if not allowed:
+            return Response({"message": "access_key's may be invalid or doesn't contain bedrock access, please ensure correct access_key's are provided"}, status=403)
+        data = parse_user_session(request)
+        user_id = data.get("user_id")
+        user_secret = None
+        if UserSecrets.objects.filter(user_id=user_id):
+            user_secret = UserSecrets.objects.filter(user_id=User(user_id))[0]
+        else:
+            user_secret = UserSecrets(user_id=User(user_id))
+        user_secret.aws_access_key = crypto.encrypt(aws_access_key)
+        user_secret.aws_secret_access_key = crypto.encrypt(aws_secret_access_key)
+        user_secret.save()
+        return Response({"message": "AWS secrets saved successfully."}, status=201)
+    except Exception as e:
+        traceback.format_exc(e)
+        return Response({"message": "something wen't wrong"}, status=500)
+
+
 class UserSecretsAPI(APIView):
     permission_classes = [Authenticated]
 
@@ -63,7 +89,7 @@ class UserSecretsAPI(APIView):
         if type == HUGGING_FACE:
             return setHuggingFaceToken(request)
         elif type == AWS:
-            pass
+            return setAwsSecrets(request)
         else:
             return Response({"message": "Invalid type"}, status=400)
     
@@ -72,6 +98,6 @@ class UserSecretsAPI(APIView):
         if type == HUGGING_FACE:
             return setHuggingFaceToken(request)
         elif type == AWS:
-            pass
+            return setAwsSecrets(request)
         else:
             return Response({"message": "Invalid type"}, status=400)
