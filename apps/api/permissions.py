@@ -1,6 +1,8 @@
 import jwt
 from llm_express.settings import JWT_SECRET
 from rest_framework.permissions import BasePermission
+from apps.api.utils import parse_user_session
+from apps.api.models import UserSecrets
 
 def authenticated_resource(request):
     try:
@@ -42,3 +44,13 @@ class PostPutDeleteOnlyAuthenticated(BasePermission):
         if request.method in ["POST", "PUT", "PATCH" ,"DELETE"]:
             return authenticated_resource(request)
         return True
+
+class HasAWSSecrets(BasePermission):
+    def has_permission(self, request, view):
+        user_id = parse_user_session(request).get("user_id")
+        user_secrets = UserSecrets.objects.filter(user_id=user_id)
+        if user_secrets and \
+            user_secrets[0].aws_access_key and \
+            user_secrets[0].aws_access_key:
+            return True
+        return False

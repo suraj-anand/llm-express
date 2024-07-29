@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from apps.api.user_secrets.views import UserSecretsAPI
 from . import views
 
@@ -14,4 +14,7 @@ urlpatterns = [
     path("logout/", views.LogoutAPI.as_view()),
     path("media/", views.MediaServeAPI.as_view()),
     path("ping/", views.HealthCheckView.as_view(), name="health-check-view"),
+    
+    # Bedrock
+    path("bedrock/", include("apps.bedrock.urls")),
 ]
