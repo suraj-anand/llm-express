@@ -14,7 +14,7 @@ class User(models.Model):
 
 class UserSecrets(models.Model):
     id = models.TextField(primary_key=True, default=uuid.uuid4)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     hugging_face_token = models.TextField(blank=True, null=True, default="")
     aws_access_key = models.TextField(blank=True, null=True, default="")
     aws_secret_access_key = models.TextField(blank=True, null=True, default="")
