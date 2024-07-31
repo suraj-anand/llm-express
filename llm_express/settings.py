@@ -289,6 +289,9 @@ STATICFILES_DIRS = [
 # MEDIA CONFIG
 MEDIA_ROOT = "media/"
 
+# MODEL STORE - in future can be moved to s3
+MODEL_ROOT = "llm_models/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
