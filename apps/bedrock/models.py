@@ -12,3 +12,4 @@ class UserBedrockModels(models.Model):
     user_created = models.ForeignKey(User, on_delete=models.CASCADE)
     local_path = models.TextField(null=True, blank=True, default="")
     is_valid = models.BooleanField(null=True, blank=True, default=True)
+    is_public = models.BooleanField(null=True, blank=True, default=True)
