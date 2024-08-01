@@ -57,8 +57,9 @@ class ModelsAPI(APIView):
             user_id = parse_user_session(request).get("user_id")
             aws_api = get_aws_api(request)
             # create model object
-            model = aws_api.create_model(model_id=model_id, model_kwargs=model_kwargs)
-            
+            model, error = aws_api.create_model(model_id=model_id, model_kwargs=model_kwargs)
+            if error:
+                return Response({"message": f"Error on creating model, {model_id}", "error": str(error)}, status=500)
             # store db instance to track user models
             data = {
                 "model_id": model_id,

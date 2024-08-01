@@ -3,7 +3,7 @@ import joblib
 import logging
 import boto3
 from botocore.client import Config
-from langchain_aws import BedrockLLM
+from langchain_aws import ChatBedrock
 from llm_express.settings import MODEL_ROOT
 
 class BedrockModel:
@@ -13,7 +13,7 @@ class BedrockModel:
         self.model_id = model_id
         self.region = region
         self.client = bedrock_client
-        self.llm = BedrockLLM(model_id=model_id, client=bedrock_client, model_kwargs=model_kwargs)
+        self.llm = ChatBedrock(model_id=model_id, client=bedrock_client, model_kwargs=model_kwargs)
 
     def __getstate__(self):
         state = self.__dict__.copy()
@@ -24,7 +24,7 @@ class BedrockModel:
     def __setstate__(self, state):
         self.__dict__.update(state)
         self.client = self._recreate_client()
-        self.llm = BedrockLLM(model_id=self.model_id, client=self.client)
+        self.llm = ChatBedrock(model_id=self.model_id, client=self.client)
 
     def _recreate_client(self):
         return boto3.session.Session(
@@ -63,10 +63,10 @@ class AwsAPI:
                 model_id, bedrock_client, model_kwargs,
                 region, self.aws_access_key_id, self.aws_secret_access_key, 
             )
-            return model
+            return model, None
         except Exception as e:
             logging.error(f"Failure on creating {model_id}, Error: {e}")
-            return False
+            return None, e
 
 def save_model(model, model_id="", user_id=""):
     try:
