@@ -110,7 +110,7 @@ const Tokens = () => {
                     <div className="mt-16">
                         <label for="hf-token" className="text-center block mb-2 text-xl font-medium">Hugging Face Token</label>
                         <input type="text" id="hf-token" 
-                            className="mt-3 block mx-auto w-[75%] p-2 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500" 
+                            className="token-input mt-3 block mx-auto w-[75%] p-2 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500" 
                             value={hugging_face_token}
                             onChange={(e) => {set_hugging_face_token(e.target.value)}}
                             />
@@ -122,14 +122,14 @@ const Tokens = () => {
                     <div className="mt-16">
                         <label for="aws_access_key" className="text-center block mb-2 text-xl font-medium">AWS Access Key</label>
                         <input type="text" id="aws_access_key" 
-                            className="mt-3 block mx-auto w-[75%] p-2 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500" 
+                            className="token-input mt-3 block mx-auto w-[75%] p-2 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500" 
                             value={aws_access_key}
                             onChange={(e) => {set_aws_access_key(e.target.value)}}
                             />
 
                         <label for="aws_secret_access_key" className="mt-12 text-center block mb-2 text-xl font-medium">AWS Secret Access Key</label>
                         <input type="text" id="aws_secret_access_key" 
-                            className="mt-3 block mx-auto w-[75%] p-2 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500" 
+                            className="token-input mt-3 block mx-auto w-[75%] p-2 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500" 
                             value={aws_secret_access_key}
                             onChange={(e) => {set_aws_secret_access_key(e.target.value)}}
                             />

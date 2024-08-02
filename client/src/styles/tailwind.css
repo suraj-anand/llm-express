@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*, ::before, ::after {
+    --tw-ring-color: #00000000 !important;
+}

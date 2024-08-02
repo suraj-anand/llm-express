@@ -15,9 +15,6 @@ div, label, h1, h2, h3, h4, h5, h6, p, input {
   color: #fff;
 }
 
-input[type='text'], input[type='password'] {
-  color: #000 !important;
-}
 
 /* Scrollbar */
 ::-webkit-scrollbar {
@@ -54,4 +51,8 @@ input[type='text'], input[type='password'] {
 .btn.ofc-btn.active {
   background-color: #0096FF;
   color: #FFF;
+}
+
+.token-input {
+  color: black !important;
 }

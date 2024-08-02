@@ -72,7 +72,7 @@ class ModelsAPI(APIView):
         model_kwargs =  { 
             "max_tokens": max_tokens if max_tokens else 2048,
             "temperature": temperature if temperature else 0.0,
-            "top_k": top_k if top_k else 250,
+            "top_k": top_k if top_k else 50,
             "top_p": top_p if top_p else 1,
         }
         try:
