@@ -86,3 +86,12 @@ def load_model(model_id, user_id):
         return model
     except:
         raise Exception("error on loading model")
+
+def invoke_model(model, prompt):
+    # response, error
+    try:
+        response = model.llm.invoke(prompt)
+        return response, None
+    except Exception as err:
+        return None, err
+    
