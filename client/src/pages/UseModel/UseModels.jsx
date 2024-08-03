@@ -3,8 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import Navbar from "components/shared/Navbar"
 import ListModels from "./components/ListModels"
 
-const YOUR_MODELS = "your-models";
-const PUBLIC_MODELS = "public-models";
+export const YOUR_MODELS = "your-models";
+export const PUBLIC_MODELS = "public-models";
 const UseModel = () => {
 
     const [ searchParams, setSearchParams ] = useSearchParams();

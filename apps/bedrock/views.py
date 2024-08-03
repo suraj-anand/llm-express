@@ -105,6 +105,18 @@ class ModelsAPI(APIView):
         except Exception as err:
             return Response({"message": f"unable to create model: {model_id} in region: {region}", "error": str(err)}, status=500)
 
+    def delete(self, request):
+        user_id = parse_user_session(request).get("user_id")
+        model_id = request.query_params.get("model_id")
+        model = UserBedrockModels.objects.filter(id=model_id)
+        if not model:
+            return Response({"message": "Invalid model_id"}, status=400)
+        model = model[0]
+        if model.user_created.id != user_id:
+            return Response({"message": "You're not authorized to access to this model"}, status=403)
+        model.delete()
+        return Response({"message": "model deleted"}, status=204)
+        
 
 # API to chat with a model
 class ChatAPI(APIView):
