@@ -3,8 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import ExistingChats from './components/ExistingChats';
 import Conversations, { AssistantChat } from './components/Conversations';
 import { IoSend } from 'react-icons/io5';
-import { TbCaretRightFilled, TbDotsVertical, TbTrash } from "react-icons/tb";
+import { TbCaretRightFilled, TbDotsVertical, TbTrash, TbPlus } from "react-icons/tb";
 import axios from 'axios';
+import Modal from 'components/generic/Modal';
+import { ToastContainer, toast } from "react-toastify";
 
 const SpecificChat = () => {
 
@@ -16,6 +18,7 @@ const SpecificChat = () => {
     const [ prompt, setPrompt ] = useState("");
     const [ error, setError ] = useState("");
     const [ loading, setLoading ] = useState("");
+    const [ refresh, setRefresh ] = useState("");
 
     async function handleSend(event){
         setLoading(true);
@@ -50,32 +53,50 @@ const SpecificChat = () => {
         }
     }
 
+    async function handleCreateChat(){
+        try{
+            const response = await axios.post(`/api/bedrock/chat/${modelid}/`);
+            const chat_id = response.data?.chat_id;
+            setRefresh(p => (!p))
+            if (chat_id){
+                navigate(`/use-model/${modelid}/${chat_id}`)
+            }
+        }
+        catch(error){
+
+        }
+    }
+
     return (
         <>
         <div className="flex h-screen overflow-hidden">
             
-            <ExistingChats showSideChats={showSideChats} setShowSideChats={setShowSideChats} />
+            <ExistingChats refresh={refresh} showSideChats={showSideChats} setShowSideChats={setShowSideChats} />
             { 
-                !showSideChats && <button className='absolute flex'><TbCaretRightFilled className='text-white' size={36} onClick={() => {
-                setShowSideChats(prev => !prev)
-            }} /></button>
+                !showSideChats && <button onClick={() => {setShowSideChats(p => !p)}}  className='absolute flex z-50 p-3'><TbCaretRightFilled className='text-white' size={36} /></button>
             }
-
-
 
             <div className="flex-1">
                 <div className="dropdown show">
                     <button className='flex ms-auto p-2' data-bs-toggle="dropdown"><TbDotsVertical size={36} /></button>
                     <div id="chat-options" className="dropdown-menu">
-                        <button className="dropdown-item" href="#" onClick={(e) => {handleDelete(e)}}>
+                        <button className="dropdown-item" onClick={handleCreateChat}>
+                            <span className='flex gap-2 items-center text-blue-600'><TbPlus size={26}/> Create New Chat</span>
+                        </button>
+                        
+
+
+                        <button className="dropdown-item" data-bs-target="#delete-chat" data-bs-toggle="modal">
                             <span className='flex gap-2 items-center text-red-600'><TbTrash size={26}/> Delete</span>
                         </button>
                     </div>
                 </div>
-                <div className="h-screen overflow-y-auto p-4 pb-36">
+                <div className="h-[92%] overflow-y-auto p-4">
                     <Conversations chat_history={chat_history} setChatHistory={setChatHistory} _loading={loading} />
                     { error && <AssistantChat message={error} />}
                 </div>
+
+                x
                 
                 <footer className={`border-t border-gray-300 p-2 absolute bottom-0 w-3/4 ${!showSideChats ? "!w-[95%] !mx-auto mb-4 left-1 right-1 rounded-lg !border" : "bg-white"}`}>
                     <div className="flex items-center">
@@ -84,7 +105,14 @@ const SpecificChat = () => {
                             type="text" 
                             className="token-input w-full p-2 rounded-md border-md border-green-400 focus:outline-none focus:border-green-500"  
                             value={prompt}
-                            onChange={(e) => {setPrompt(e.target.value)}}
+                            onChange={(e) => {
+                                setPrompt(e.target.value)}
+                            }
+                            onKeyDown={(e) => {
+                                if(e.key === "Enter"){
+                                    handleSend(e)
+                                }
+                            }}
                             />
                             
                         <button 
@@ -94,8 +122,22 @@ const SpecificChat = () => {
                         </button>
                     </div>
                 </footer>
+
+                {/* Delete Confirmation */}
+                <Modal
+                    title={"Delete Chat ?"}
+                    closeClass="btn btn-primary"
+                    handleSave={handleDelete}
+                    saveName="Delete"
+                    saveClass='flex items-center gap-2 btn btn-outline-danger'
+                    saveIcon={<TbTrash />}
+                    modalId="delete-chat">
+                        <p>Are you sure that you want to delete your chats ?</p>
+                        <i>Note: This action is not reversible</i>
+                </Modal>
             </div>
         </div>
+        <ToastContainer />
         </>
     )
 }

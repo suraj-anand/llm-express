@@ -5,7 +5,7 @@ import { Fade, Spinner } from "react-bootstrap";
 import { FaWindowMinimize } from "react-icons/fa";
 import { Link, NavLink, useParams } from "react-router-dom";
 
-const ExistingChats = ({ showSideChats, setShowSideChats }) => {
+const ExistingChats = ({ refresh, showSideChats, setShowSideChats }) => {
 
     const { modelid } = useParams();
 
@@ -22,7 +22,7 @@ const ExistingChats = ({ showSideChats, setShowSideChats }) => {
 
     useEffect(() => {
         call()
-    }, [modelid])
+    }, [modelid, refresh])
 
     return (
         <Fade in={showSideChats} unmountOnExit={true} mountOnEnter={showSideChats}>
@@ -54,7 +54,13 @@ const ExistingChats = ({ showSideChats, setShowSideChats }) => {
                             {/* Single Chat on side bar */}
                             <NavLink to={`/use-model/${modelid}/${prev_chat.id}`} className="chat-side flex border rounded-2xl items-center mb-4 cursor-pointer hover:bg-blue-800 p-2">
                                 <div className="flex-1" >
-                                    <h2 className="p-2 text-white text-md font-semibold">{prev_chat?.first_message.substring(0, 200)}</h2>
+                                    <h2 className="p-2 text-white text-md font-semibold">
+                                        {
+                                            prev_chat?.first_message ?
+                                                prev_chat?.first_message.substring(0, 200) :
+                                                "New Chat"
+                                        }
+                                    </h2>
                                 </div>
                             </NavLink>
                             </>
