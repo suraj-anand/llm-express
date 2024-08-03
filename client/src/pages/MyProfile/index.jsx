@@ -8,7 +8,7 @@ const MyProfile = () => {
     <>
         <Navbar type="back" />
         <UserInfo />
-        <ToastContainer />
+        <ToastContainer theme="dark" />
     </>
   )
 }

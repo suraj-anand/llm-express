@@ -92,7 +92,7 @@ const ListModels = ({ type }) => {
             </tbody>
         </table>
 
-        <ToastContainer />
+        <ToastContainer theme="dark" />
         </>
     )   
 }

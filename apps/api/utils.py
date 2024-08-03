@@ -19,7 +19,6 @@ def authenticated_resource(func):
             else:
                 return Response({"detail": "Invalid Token"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as err:
-            traceback.print_exception(err)
             logging.error(f"Exception on checking authenticated_resource, Error: {err}")
             return Response({"detail": "Invalid Token"}, status=status.HTTP_400_BAD_REQUEST)
     return wrapper
@@ -35,6 +34,5 @@ def parse_user_session(request):
         else:
             return {}
     except Exception as err:
-        traceback.print_exception(err)
-        logging.error(f"Failed on decoding user session")
+        logging.error(f"Failed on decoding user session, Error: {err}")
         return {}

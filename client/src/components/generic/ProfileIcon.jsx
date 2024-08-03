@@ -24,7 +24,7 @@ const ProfileIcon = ({className, size, rest}) => {
     }
 
     useEffect(() => {
-        if (sessionStorage.getItem("profile") || Object.keys(sessionStorage).includes("profile")){
+        if (sessionStorage.getItem("profile") || (sessionStorage.getItem("profile") === "" && Object.keys(sessionStorage).includes("profile"))){
             setProfile(sessionStorage.getItem("profile"))
         } else {
             fetchProfile();

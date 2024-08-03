@@ -153,7 +153,6 @@ class ChangeProfileAPI(APIView):
     
     permission_classes = [Authenticated]
     
-    @method_decorator(authenticated_resource)
     def post(self, request):
         data = parse_user_session(request=request)
         profile = request.data.get("file")
@@ -169,7 +168,7 @@ class ChangeProfileAPI(APIView):
         # Delete existing profile
         user = User.objects.get(id=user_id)
         old_profile_image_path = os.path.join(BASE_DIR, MEDIA_ROOT, user.profile)
-        if os.path.exists(old_profile_image_path):
+        if user.profile and os.path.exists(old_profile_image_path):
             os.remove(old_profile_image_path)
 
         # Update model with new profile image.

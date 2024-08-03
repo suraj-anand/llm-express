@@ -4,7 +4,7 @@ import { useAxios } from "hooks";
 import { useEffect, useRef, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { RiRefreshLine } from "react-icons/ri";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function ChangeProfileModal({ setReload }){
 
@@ -33,6 +33,7 @@ export default function ChangeProfileModal({ setReload }){
         closeRef.current?.click();
         setReload((prev) => {return !prev});
         toast("Updated User Profile");
+        sessionStorage.removeItem("profile")
         setFile(null);
       }
     }, [data])

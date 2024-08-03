@@ -42,7 +42,7 @@ const UserInfo = () => {
         <>
 
           <div className="container justify-end flex ms-auto gap-5 dropdown">
-            <button type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" >
+            <button className="z-50 " type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" >
                 <PiDotsThreeVerticalBold className="fw-bolder text-lg" size={36} />
             </button>
 

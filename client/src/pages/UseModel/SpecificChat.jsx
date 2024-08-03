@@ -137,7 +137,7 @@ const SpecificChat = () => {
                 </Modal>
             </div>
         </div>
-        <ToastContainer />
+        <ToastContainer theme="dark" />
         </>
     )
 }
