@@ -6,7 +6,7 @@ import Back from 'components/mini/Back';
 const Navbar = ({ showOptions=true, type="search", handleSearchClick = () => {} }) => {
     return (
         <nav className="navbar bg-gray-900">
-            <div className="container my-2 py-3">
+            <div className="container my-2 py-2">
                             
                 {/* Icon */}
                 <div className="w-100 d-flex justify-content-center text-blue-700">

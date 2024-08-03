@@ -7,3 +7,4 @@ export { default as About } from "./About"
 export { default as MyProfile } from "./MyProfile";
 export { default as Deploy } from "./Deploy/Deploy";
 export { default as Tokens } from "./Tokens/Tokens";
+export { default as UseModel } from "./UseModel";

@@ -53,8 +53,12 @@ class ModelsAPI(APIView):
 
     permission_classes = [Authenticated, HasAWSSecrets]
     def get(self, request):
+        type = request.query_params.get("type")
         user_id = parse_user_session(request).get("user_id")
-        data = UserBedrockModels.objects.filter(user_created_id=user_id)
+        if type.lower() == "public-models":
+            data = UserBedrockModels.objects.filter(user_created_id=user_id, is_public=True)    
+        else:
+            data = UserBedrockModels.objects.filter(user_created_id=user_id)
         serializer = UserBedrockModelSerializer(data, many=True)
         return Response(serializer.data)
 
@@ -113,9 +117,13 @@ class ChatAPI(APIView):
         chat_id = request.query_params.get("chat_id")
         type = request.query_params.get("type")
         user_id = parse_user_session(request).get("user_id")
-        if type.lower() == "list":
+        # validate access
+        model = model_chat_validate(request, model_id)
+        if isinstance(model, Response):
+            return model
+        if type and type.lower() == "list":
             context = convo.get_chats_on_model(model_id, user_id)
-            return Response(context, status=200)
+            return Response({"model_name": model.model_name, "context": context}, status=200)
         if not chat_id:
             return Response({"message": "chat_id is required, if type isn't list"}, status=400)
         # validate access

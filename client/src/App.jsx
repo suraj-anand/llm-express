@@ -9,7 +9,8 @@ import {
   About,
   MyProfile,
   Tokens,
-  Deploy
+  Deploy,
+  UseModel
 } from './pages'
 import AuthorizedRoutes from "utils/AuthorizedRoutes";
 import { AuthProvider } from "context/AuthContext";
@@ -35,7 +36,10 @@ function App() {
             
             {/* Deploy model */}
             <Route path="/deploy-model/" element={<Deploy />} />
-
+            
+            {/* Use Models */}
+            <Route path="/use-model/*" element={<UseModel />} />
+            
             <Route path="/my-profile/" element={<MyProfile />} />
             <Route path="/user/:userid" element={<UserProfile />} />
           </Route>
