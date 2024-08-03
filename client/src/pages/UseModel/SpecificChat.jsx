@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ExistingChats from './components/ExistingChats';
 import Conversations, { AssistantChat } from './components/Conversations';
 import { IoSend } from 'react-icons/io5';
@@ -8,6 +8,8 @@ import axios from 'axios';
 
 const SpecificChat = () => {
 
+    const navigate = useNavigate();
+    const user_id = localStorage.getItem("user_id");
     const [ showSideChats, setShowSideChats ] = useState(true);
     const { modelid, chatid } = useParams();
     const [ chat_history, setChatHistory ] = useState([]);
@@ -34,7 +36,18 @@ const SpecificChat = () => {
     }
 
     async function handleDelete(event){
-        
+        setLoading(true);
+        try {
+            const response = await axios.delete(`/api/bedrock/chat/${modelid}/?chat_id=${chatid}&user_id=${user_id}`);
+            if([200,201,202,203,204].includes(response.status)){
+                navigate(`/use-model/${modelid}`)
+            }
+        }   catch (error) {
+            setError(err_message);
+        } finally {
+            setLoading(false);
+            setPrompt("")
+        }
     }
 
     return (

@@ -61,3 +61,14 @@ class ConversationHistory:
         except Exception as err:
             logging.error(f"Failed on adding/updating chat to dynamodb, Error: {err}")
             return False, err
+
+    def delete_chat(self, chat_id, user_id):
+        try:
+            resp = self.conversation_history.delete_item(Key={"id": chat_id, "user_id": user_id})
+            if resp.get("ResponseMetadata", {}).get("HTTPStatusCode") in (200, 201):
+                return True
+            else:
+                return False
+        except:
+            logging.error(f"Error on deleting chat")
+            return False

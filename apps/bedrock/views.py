@@ -182,3 +182,16 @@ class ChatAPI(APIView):
         chats.append({"role": "assistant", "content": resp.content}) # add AI response
         convo.add_update_chat_data(construct_chat_data(chat_id, user_id, model_id, chats))
         return Response({"content": resp.content}, status=200)
+
+
+    # delete chat
+    def delete(self, request, model_id):
+        chat_id = request.query_params.get("chat_id")
+        user_id = request.query_params.get("user_id")
+        if not user_id and not chat_id:
+            return Response({"message": "user_id & chat_id is required"}, status=400)
+        
+        if convo.delete_chat(chat_id, user_id):
+            return Response({"message": f"{chat_id} deleted"}, status=204)
+        else:
+            return Response({"message": f"{chat_id} failed"}, status=500)
