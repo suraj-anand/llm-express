@@ -155,26 +155,29 @@ class ChangeProfileAPI(APIView):
     
     def post(self, request):
         data = parse_user_session(request=request)
+        delete = request.data.get("delete")
         profile = request.data.get("file")
         user_id = data.get("user_id")
         
-        # Store New profile
-        new_profile_image_path = ""
-        if profile:
-            fs = FileSystemStorage(location=os.path.join(PROFILE_IMAGE_STORE_PATH, user_id))
-            filename = fs.save(profile.name, profile)
-            new_profile_image_path = os.path.join(PROFILE_IMAGE_PATH, user_id, filename)
-            
+        if not delete:        
+            # Store New profile
+            new_profile_image_path = ""
+            if profile:
+                fs = FileSystemStorage(location=os.path.join(PROFILE_IMAGE_STORE_PATH, user_id))
+                filename = fs.save(profile.name, profile)
+                new_profile_image_path = os.path.join(PROFILE_IMAGE_PATH, user_id, filename)
         # Delete existing profile
         user = User.objects.get(id=user_id)
         old_profile_image_path = os.path.join(BASE_DIR, MEDIA_ROOT, user.profile)
         if user.profile and os.path.exists(old_profile_image_path):
             os.remove(old_profile_image_path)
 
-        # Update model with new profile image.
-        user.profile = new_profile_image_path
+        # Update model with profile changes.
+        if delete:
+            user.profile = ""
+        if not delete:
+            user.profile = new_profile_image_path        
         user.save()
-        
         return Response( {"detail": "Updated" }, status=status.HTTP_200_OK)
 
 

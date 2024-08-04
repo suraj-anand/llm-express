@@ -8,8 +8,9 @@ import ChangeProfileModal from "./ChangeProfileModal";
 import ChangePassword from "./ChangePassword";
 import { RiRefreshLine } from "react-icons/ri";
 import { PiDotsThreeVerticalBold, PiPassword } from "react-icons/pi";
-import { FcInfo } from "react-icons/fc";
+import { FcInfo, FcPicture } from "react-icons/fc";
 import ChangeBio from "./ChangeBio";
+import DeleteProfileImage from "./DeleteProfileImage";
 
 const UserInfo = () => {
 
@@ -69,6 +70,14 @@ const UserInfo = () => {
                 </button>
                 Change Bio
               </li>
+              <li><hr className="dropdown-divider" /></li>
+
+              <li data-bs-toggle="modal" data-bs-target="#delete-profile" className="flex gap-2 items-center dropdown-item hover:text-gray-600_01">
+                <button className="my-1" title="Delete Profile Image">
+                  <FcPicture size={22} />
+                </button>
+                Delete Profile Image
+              </li>
             </ul>
           </div>
 
@@ -93,6 +102,7 @@ const UserInfo = () => {
     <ChangeProfileModal setReload={setReload} />
     <ChangePassword setReload={setReload} />
     <ChangeBio oldBio={bio} setReload={setReload} />
+    <DeleteProfileImage setReload={setReload} />
     </>
   )
 }
