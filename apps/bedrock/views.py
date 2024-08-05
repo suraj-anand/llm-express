@@ -55,7 +55,7 @@ class ModelsAPI(APIView):
     def get(self, request):
         type = request.query_params.get("type")
         user_id = parse_user_session(request).get("user_id")
-        if type.lower() == "public-models":
+        if type and type.lower() == "public-models":
             data = UserBedrockModels.objects.filter(user_created_id=user_id, is_public=True)    
         else:
             data = UserBedrockModels.objects.filter(user_created_id=user_id)
