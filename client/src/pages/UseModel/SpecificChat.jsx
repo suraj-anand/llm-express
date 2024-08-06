@@ -21,6 +21,7 @@ const SpecificChat = () => {
     const [ refresh, setRefresh ] = useState("");
 
     async function handleSend(event){
+        setPrompt("")
         setLoading(true);
         setChatHistory(chathistory => ([...chathistory, {"role": "user", "content": prompt}]))
         try {
@@ -110,6 +111,7 @@ const SpecificChat = () => {
                             }
                             onKeyDown={(e) => {
                                 if(e.key === "Enter"){
+                                    setPrompt("")
                                     handleSend(e)
                                 }
                             }}
