@@ -72,3 +72,24 @@ class ConversationHistory:
         except:
             logging.error(f"Error on deleting chat")
             return False
+    
+    def delete_all_chats(self, model_id, user_id):
+        try:
+            resp = self.conversation_history.scan(
+                        FilterExpression=Attr("model_id").eq(model_id) &
+                        Attr("user_id").eq(user_id)
+                    )
+            chats_to_delete = []
+            for chat in resp.get("Items", []):
+                chats_to_delete.append({"id": chat.get("id"), "user_id": chat.get("user_id") })
+            
+            with self.conversation_history.batch_writer() as batch:
+                for item in chats_to_delete:
+                    batch.delete_item(Key={
+                        "id": item["id"],
+                        "user_id": item["user_id"],
+                    })
+            return True
+        except:
+            logging.error(f"Error on deleting chats")
+            return False

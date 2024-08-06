@@ -107,6 +107,7 @@ class ModelsAPI(APIView):
 
     def delete(self, request):
         user_id = parse_user_session(request).get("user_id")
+        aws_api = get_aws_api(request)
         model_id = request.query_params.get("model_id")
         model = UserBedrockModels.objects.filter(id=model_id)
         if not model:
@@ -114,7 +115,11 @@ class ModelsAPI(APIView):
         model = model[0]
         if model.user_created.id != user_id:
             return Response({"message": "You're not authorized to access to this model"}, status=403)
-        model.delete()
+        # delete chats of the model
+        if convo.delete_all_chats(model_id, user_id):
+            model.delete()
+        else:
+            return Response({"message": "Error on deleting chats associated with this model"}, status=500)
         return Response({"message": "model deleted"}, status=204)
         
 
