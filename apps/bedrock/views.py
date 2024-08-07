@@ -6,7 +6,7 @@ from apps.api.models import UserSecrets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from llm_express.utils import CryptoService
-from .helper import AwsAPI, save_model, load_model, invoke_model
+from .helper import AwsAPI, save_model, load_model, invoke_model, delete_model
 from .models import UserBedrockModels
 from .serializers import UserBedrockModelSerializer
 from llm_express.aws import ConversationHistory
@@ -107,7 +107,6 @@ class ModelsAPI(APIView):
 
     def delete(self, request):
         user_id = parse_user_session(request).get("user_id")
-        aws_api = get_aws_api(request)
         model_id = request.query_params.get("model_id")
         model = UserBedrockModels.objects.filter(id=model_id)
         if not model:
@@ -115,6 +114,8 @@ class ModelsAPI(APIView):
         model = model[0]
         if model.user_created.id != user_id:
             return Response({"message": "You're not authorized to access to this model"}, status=403)
+        # delete model pkl
+        delete_model(model_id, user_id)
         # delete chats of the model
         if convo.delete_all_chats(model_id, user_id):
             model.delete()

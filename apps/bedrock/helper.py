@@ -77,6 +77,13 @@ def save_model(model, model_id="", user_id=""):
         logging.error(f"Failure on saving model locally, error: {err}")
         raise Exception("Error on saving model")
 
+def delete_model(model_id="", user_id=""):
+    try:
+        model_path = os.path.join(MODEL_ROOT, user_id, f"{model_id}.pkl")
+        os.remove(model_path)
+    except Exception as err:
+        logging.error(f"Failure on deleting model locally, error: {err}")
+
 def load_model(model_id, user_id):
     model_path = os.path.join(MODEL_ROOT, user_id, f"{model_id}.pkl")
     if not os.path.exists(model_path):
