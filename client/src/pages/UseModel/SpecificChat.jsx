@@ -21,6 +21,7 @@ const SpecificChat = () => {
     const [ refresh, setRefresh ] = useState("");
 
     async function handleSend(event){
+        if(!prompt) return;
         setPrompt("")
         setLoading(true);
         setChatHistory(chathistory => ([...chathistory, {"role": "user", "content": prompt}]))
@@ -119,7 +120,7 @@ const SpecificChat = () => {
                             
                         <button 
                             onClick={handleSend}
-                            className="bg-green-500 text-white px-3 py-2 rounded-md ml-2">
+                            className={`btn bg-green-500 text-white px-3 py-2 rounded-md ml-2 ${!prompt ? "disabled" : ""}`}>
                                 <IoSend />
                         </button>
                     </div>
