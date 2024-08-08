@@ -56,9 +56,9 @@ class ModelsAPI(APIView):
         type = request.query_params.get("type")
         user_id = parse_user_session(request).get("user_id")
         if type and type.lower() == "public-models":
-            data = UserBedrockModels.objects.filter(user_created_id=user_id, is_public=True)    
+            data = UserBedrockModels.objects.filter(user_created_id=user_id, is_public=True).order_by("-created_time")
         else:
-            data = UserBedrockModels.objects.filter(user_created_id=user_id)
+            data = UserBedrockModels.objects.filter(user_created_id=user_id).order_by("-created_time")
         serializer = UserBedrockModelSerializer(data, many=True)
         return Response(serializer.data)
 
